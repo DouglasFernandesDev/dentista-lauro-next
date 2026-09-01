@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dr. Lauro Santos — Odontologia Estética
 
-## Getting Started
+Site institucional (landing page) do consultório do Dr. Lauro Santos, focado em
+**facetas em resina composta**. Reescrito em Next.js a partir do site estático
+original, mantendo a identidade visual (paleta azul monocromática, faixa de cor
+em gradiente, tipografia serif/mono) e todo o conteúdo.
 
-First, run the development server:
+## Tecnologias
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **Tailwind CSS v4** com tokens da marca em `app/globals.css` (`@theme`)
+- **shadcn/ui** para o primitivo `Button`
+- **next/font** (Cormorant Garamond, Inter, IBM Plex Mono) — sem requisições externas
+- **next/image** para todas as imagens
+- **Playwright** para testes end-to-end
+
+## Começando
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra <http://localhost:3000>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Script | Descrição |
+|---|---|
+| `npm run dev` | desenvolvimento com Turbopack |
+| `npm run build` | build de produção (checa tipos) |
+| `npm run start` | serve o build de produção |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | verificação de tipos (`tsc --noEmit`) |
+| `npm run test` | testes E2E (Playwright / chromium) |
 
-## Learn More
+> Na primeira execução dos testes: `npx playwright install chromium`.
 
-To learn more about Next.js, take a look at the following resources:
+## Estrutura
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+app/
+  layout.tsx            Fontes, metadados (SEO), viewport, JSON-LD, skip-link
+  page.tsx             Composição das seções (Server Component)
+  globals.css          Tailwind v4 + design tokens da marca
+  _components/          Componentes da página (nav, hero, sobre, trabalhos, CTA, contato, rodapé)
+components/ui/          Primitivos shadcn
+lib/                   site-config.ts (conteúdo), case-studies.ts (casos), utils.ts
+types/                 Tipos compartilhados
+public/imagens/        Imagens (capa, perfil, antes/depois)
+e2e/                   Testes Playwright
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Detalhes de arquitetura e convenções: veja [`CLAUDE.md`](./CLAUDE.md) e
+[`.claude/rules/rules-global.md`](./.claude/rules/rules-global.md).
 
-## Deploy on Vercel
+## Conteúdo
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Todo o texto institucional, dados de contato e casos clínicos ficam centralizados
+em [`lib/site-config.ts`](./lib/site-config.ts) e
+[`lib/case-studies.ts`](./lib/case-studies.ts). Para atualizar telefone, endereço,
+horário, credenciais ou adicionar um novo caso antes/depois, edite apenas esses
+arquivos (e coloque as imagens novas em `public/imagens/`).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy
+
+Projeto 100% estático — pronto para a [Vercel](https://vercel.com/new) sem
+configuração adicional. O build pré-renderiza a página inicial.
