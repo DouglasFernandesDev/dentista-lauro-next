@@ -47,3 +47,5 @@ next-env.d.ts
 # originais/ é versionado DE PROPÓSITO: backup em alta resolução das fotos
 # de public/imagens/ antes da otimização (ver scripts/optimize-images.mjs).
 # Não ignorar nem remover — é a única cópia dos arquivos originais.
+
+.vercel
