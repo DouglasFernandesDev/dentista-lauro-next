@@ -1,9 +1,10 @@
-import type { ComponentType, SVGProps } from "react";
+import type { ComponentType, CSSProperties, SVGProps } from "react";
 import { CalendarCheck, ClipboardList, RefreshCcw, Sparkles } from "lucide-react";
 
 import { howItWorks, howItWorksSteps } from "@/lib/site-config";
 
 import { SectionKicker } from "./section-kicker";
+import { TiltCard } from "./tilt-card";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -38,20 +39,23 @@ export function HowItWorksSection() {
             return (
               <li
                 key={step.title}
-                className="rounded-2xl border border-[#d7e6f2] bg-paler px-6 py-7"
+                className="reveal perspective-distant"
+                style={{ "--reveal-delay": index * 90 } as CSSProperties}
               >
-                <span className="flex size-10 items-center justify-center rounded-full bg-navy text-gold">
-                  <Icon className="size-5" aria-hidden="true" />
-                </span>
-                <p className="mt-4 font-mono text-[11px] uppercase tracking-wide text-deep">
-                  {howItWorks.stepPrefix} {index + 1}
-                </p>
-                <h3 className="mt-1 font-title text-lg font-semibold text-navy">
-                  {step.title}
-                </h3>
-                <p className="mt-2 text-sm leading-[1.6] text-[#4d6478]">
-                  {step.description}
-                </p>
+                <TiltCard className="h-full rounded-2xl border border-[#d7e6f2] bg-paler px-6 py-7 transition-[transform,box-shadow] duration-300 hover:shadow-card">
+                  <span className="flex size-10 items-center justify-center rounded-full bg-navy text-gold">
+                    <Icon className="size-5" aria-hidden="true" />
+                  </span>
+                  <p className="mt-4 font-mono text-[11px] uppercase tracking-wide text-deep">
+                    {howItWorks.stepPrefix} {index + 1}
+                  </p>
+                  <h3 className="mt-1 font-title text-lg font-semibold text-navy">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-[1.6] text-[#4d6478]">
+                    {step.description}
+                  </p>
+                </TiltCard>
               </li>
             );
           })}

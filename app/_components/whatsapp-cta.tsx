@@ -22,7 +22,7 @@ export function WhatsappCta({ children, className }: WhatsappCtaProps) {
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "inline-flex items-center gap-2.5 rounded-lg bg-gold px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-navy shadow-[0_10px_24px_rgba(198,161,91,0.28)] transition duration-200 hover:bg-champagne motion-safe:hover:-translate-y-0.5",
+        "inline-flex items-center gap-2.5 rounded-lg bg-gold px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-navy shadow-gold transition duration-200 hover:bg-champagne motion-safe:hover:-translate-y-0.5",
         className,
       )}
     >

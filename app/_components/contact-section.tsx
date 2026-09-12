@@ -1,4 +1,4 @@
-import type { ComponentType, SVGProps } from "react";
+import type { ComponentType, CSSProperties, SVGProps } from "react";
 import Image from "next/image";
 import { Clock, Mail, MapPin } from "lucide-react";
 
@@ -70,7 +70,7 @@ export function ContactSection() {
 
         <div className="mt-10 grid gap-[60px] md:grid-cols-[1.3fr_1fr] md:items-center md:gap-10 lg:gap-[60px]">
           <ul className="flex flex-col gap-3.5">
-            {contactItems.map((item) => {
+            {contactItems.map((item, index) => {
               const Icon = item.icon;
               const content = (
                 <>
@@ -89,14 +89,18 @@ export function ContactSection() {
               );
 
               return (
-                <li key={item.label}>
+                <li
+                  key={item.label}
+                  className="reveal"
+                  style={{ "--reveal-delay": index * 70 } as CSSProperties}
+                >
                   {item.href ? (
                     <a
                       href={item.href}
                       {...(item.external
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : {})}
-                      className="flex items-center gap-4 rounded-xl border border-[#bde0fa] bg-sky/70 px-5 py-4 transition duration-200 hover:bg-mid hover:shadow-[0_6px_14px_rgba(13,95,158,0.15)] motion-safe:hover:-translate-y-0.5"
+                      className="flex items-center gap-4 rounded-xl border border-[#bde0fa] bg-sky/70 px-5 py-4 transition duration-200 hover:bg-mid hover:shadow-card motion-safe:hover:-translate-y-0.5"
                     >
                       {content}
                       {item.external ? (
@@ -120,7 +124,7 @@ export function ContactSection() {
             height={620}
             sizes="(min-width: 768px) 380px, 100vw"
             placeholder="blur"
-            className="h-full w-full rounded-2xl object-cover shadow-[0_8px_20px_rgba(0,0,0,0.12)]"
+            className="h-full w-full rounded-2xl object-cover shadow-card"
           />
         </div>
 

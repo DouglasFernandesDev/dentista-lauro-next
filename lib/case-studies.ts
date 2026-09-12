@@ -4,6 +4,13 @@ import antes1 from "@/public/imagens/antes1.jpg";
 import antes2 from "@/public/imagens/antes2.jpg";
 import antes3 from "@/public/imagens/antes3.jpg";
 import depois1 from "@/public/imagens/depois1.jpg";
+// PENDÊNCIA (herdada do site estático original, não introduzida nesta
+// reescrita): este arquivo é byte-a-byte idêntico a `public/imagens/capa.jpg`
+// — a mesma foto clínica de close intraoral (com afastador) usada como fundo
+// de tela cheia do hero (`app/_components/hero.tsx`). Precisa da foto real do
+// "depois" do Caso 02, e revisar se o consentimento de uso de imagem do
+// paciente dessa foto cobre também o uso como capa institucional (fora do
+// contexto do caso clínico). Decisão registrada: manter assim por ora.
 import depois2 from "@/public/imagens/depois2.jpg";
 import depois3 from "@/public/imagens/depois3.jpg";
 

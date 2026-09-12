@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
 
 import {
@@ -13,10 +14,16 @@ import { WhatsappCta } from "./whatsapp-cta";
 import capa from "@/public/imagens/capa.jpg";
 import perfil from "@/public/imagens/perfil.jpg";
 
+/** Escalona a entrada dos blocos do hero no carregamento — não depende de
+ * scroll, só de `prefers-reduced-motion` (ver `.fade-up-in` em globals.css). */
+function revealDelay(ms: number): CSSProperties {
+  return { "--reveal-delay": ms } as CSSProperties;
+}
+
 export function Hero() {
   return (
     <section id="topo" aria-labelledby="hero-titulo">
-      <div className="relative flex min-h-[340px] flex-col justify-end px-[6%] pb-24 [block-size:52vh]">
+      <div className="relative flex min-h-[340px] flex-col justify-end overflow-hidden px-[6%] pb-24 [block-size:52vh]">
         <Image
           src={capa}
           alt=""
@@ -24,24 +31,36 @@ export function Hero() {
           priority
           sizes="100vw"
           placeholder="blur"
-          className="-z-10 object-cover"
+          className="hero-parallax -z-10 object-cover"
         />
+        {/* Vinheta radial (reforça o canto onde o texto fica) + gradiente
+            direcional navy→steel — substitui o overlay linear único, para
+            o texto branco ler bem mesmo sobre trechos claros da foto. */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,rgba(7,27,51,0.78),rgba(46,111,156,0.35))]"
+          className="absolute inset-0 -z-10 bg-[image:radial-gradient(140%_90%_at_12%_105%,rgba(7,27,51,0.28),transparent_60%),linear-gradient(125deg,rgba(7,27,51,0.85),rgba(46,111,156,0.38))]"
         />
         <div className="mx-auto w-full max-w-[1160px]">
-          <SectionKicker tone="pale">Facetas em resina composta</SectionKicker>
+          <div className="fade-up-in" style={revealDelay(0)}>
+            <SectionKicker tone="pale">Facetas em resina composta</SectionKicker>
+          </div>
           <h1
             id="hero-titulo"
-            className="max-w-[640px] font-title text-[clamp(2.125rem,5vw,3.625rem)] font-medium italic leading-[1.08] text-white"
+            className="fade-up-in max-w-[640px] font-title text-[clamp(2.125rem,5vw,3.625rem)] font-medium italic leading-[1.08] text-white"
+            style={revealDelay(90)}
           >
             Transforme seu sorriso sem perder a naturalidade.
           </h1>
-          <p className="mt-4 max-w-[460px] text-[15px] leading-[1.7] text-pale">
+          <p
+            className="fade-up-in mt-4 max-w-[460px] text-[15px] leading-[1.7] text-pale"
+            style={revealDelay(180)}
+          >
             {heroTagline}
           </p>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <div
+            className="fade-up-in mt-7 flex flex-wrap items-center gap-3"
+            style={revealDelay(260)}
+          >
             <WhatsappCta>{ctaLabels.schedule}</WhatsappCta>
             <a
               href="#trabalhos"
@@ -53,34 +72,42 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto -mt-10 flex max-w-[1160px] flex-col items-start gap-4 px-[6%] md:-mt-16 md:flex-row md:items-end md:gap-6">
-        <Image
-          src={perfil}
-          alt={`Foto de ${siteConfig.name}`}
-          width={430}
-          height={430}
-          priority
-          sizes="(min-width: 768px) 430px, 250px"
-          placeholder="blur"
-          className="size-[250px] shrink-0 rounded-full border-[5px] border-white object-cover shadow-[0_12px_28px_rgba(7,27,51,0.25)] md:size-[430px]"
-        />
-        <div className="pb-3.5">
-          <h2 className="font-title text-[26px] font-semibold text-navy md:text-3xl">
-            {siteConfig.name}
-          </h2>
-          <p className="mt-1 text-[13px] font-semibold uppercase tracking-wide text-deep">
-            {siteConfig.role}
-          </p>
-          <ul className="mt-2.5 flex flex-wrap gap-x-[18px] gap-y-1.5">
-            {profileHighlights.map((item) => (
-              <li
-                key={item}
-                className="flex items-center gap-1.5 font-mono text-xs text-deep before:text-gold before:content-['•']"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
+      {/* Cartão de credencial flutuante — substitui o avatar solto por uma
+          superfície branca com leve inclinação 3D (perspective + rotateX),
+          sobreposta à capa. É o elemento que passa "profissional" antes de
+          qualquer texto ser lido. */}
+      <div className="perspective-distant mx-auto -mt-12 max-w-[1160px] px-[6%] md:-mt-16">
+        <div
+          className="fade-up-in transform-3d flex flex-col items-start gap-4 rounded-2xl border-t-2 border-gold bg-white/95 p-5 shadow-float backdrop-blur-sm sm:flex-row sm:items-center sm:gap-6 md:p-7 md:[transform:rotateX(3deg)_translateZ(6px)]"
+          style={revealDelay(360)}
+        >
+          <Image
+            src={perfil}
+            alt={`Foto de ${siteConfig.name}`}
+            width={200}
+            height={200}
+            sizes="(min-width: 768px) 140px, 96px"
+            placeholder="blur"
+            className="size-24 shrink-0 rounded-full object-cover shadow-card md:size-[140px]"
+          />
+          <div>
+            <h2 className="font-title text-[24px] font-semibold text-navy md:text-3xl">
+              {siteConfig.name}
+            </h2>
+            <p className="mt-1 text-[13px] font-semibold uppercase tracking-wide text-deep">
+              {siteConfig.role}
+            </p>
+            <ul className="mt-2.5 flex flex-wrap gap-x-[18px] gap-y-1.5">
+              {profileHighlights.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-1.5 font-mono text-xs text-deep before:text-gold before:content-['•']"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

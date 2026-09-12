@@ -76,6 +76,23 @@ test.describe("Página inicial — Dr. Lauro Santos", () => {
     ).toHaveAttribute("href", "https://wa.me/5522998277917");
   });
 
+  test("comparador antes/depois alterna ao clicar", async ({ page }) => {
+    await page.goto("/");
+
+    const trabalhos = page.getByRole("region", {
+      name: "Antes e depois: cada caso, um planejamento próprio.",
+    });
+    const compareButton = trabalhos.getByRole("button").first();
+    await expect(compareButton).toHaveAttribute("aria-pressed", "false");
+
+    await expect(compareButton).toBeVisible();
+    await compareButton.click();
+    await expect(compareButton).toHaveAttribute("aria-pressed", "true");
+
+    await compareButton.click();
+    await expect(compareButton).toHaveAttribute("aria-pressed", "false");
+  });
+
   test("seção de contato lista os canais principais", async ({ page }) => {
     await page.goto("/");
 

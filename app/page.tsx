@@ -13,7 +13,7 @@ import { WorksSection } from "./_components/works-section";
 export default function HomePage() {
   return (
     <>
-      <ColorStripe />
+      <ColorStripe progress />
       <SiteHeader />
 
       <main id="conteudo">

@@ -15,7 +15,7 @@ export function FloatingWhatsappButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar no WhatsApp (abre em nova aba)"
-      className="fixed bottom-5 right-5 z-40 flex size-14 items-center justify-center rounded-full bg-gold text-navy shadow-[0_10px_24px_rgba(7,27,51,0.3)] transition duration-200 hover:bg-champagne motion-safe:hover:-translate-y-0.5"
+      className="fixed bottom-5 right-5 z-40 flex size-14 items-center justify-center rounded-full bg-gold text-navy shadow-float transition duration-200 hover:bg-champagne motion-safe:hover:-translate-y-0.5"
     >
       <WhatsappIcon className="size-7" aria-hidden="true" />
     </a>

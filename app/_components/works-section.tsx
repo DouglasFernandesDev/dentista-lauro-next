@@ -1,9 +1,11 @@
-import Image from "next/image";
+import type { CSSProperties } from "react";
 
 import { caseStudies } from "@/lib/case-studies";
 import { worksDisclaimer, worksSection } from "@/lib/site-config";
 
+import { CasePhotoCompare } from "./case-card";
 import { SectionKicker } from "./section-kicker";
+import { TiltCard } from "./tilt-card";
 
 export function WorksSection() {
   return (
@@ -25,33 +27,17 @@ export function WorksSection() {
         </div>
 
         <ul className="mt-10 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
-          {caseStudies.map((caseStudy) => (
-            <li key={caseStudy.id}>
-              <article className="group h-full overflow-hidden rounded-2xl bg-paler shadow-[0_4px_18px_rgba(7,27,51,0.06)] transition-shadow duration-300 hover:shadow-[0_14px_34px_rgba(7,27,51,0.14)]">
-                <div className="relative grid grid-cols-2">
-                  {[caseStudy.before, caseStudy.after].map((photo, photoIndex) => (
-                    <figure
-                      key={photo.src.src}
-                      className="relative m-0 aspect-4/5 overflow-hidden"
-                    >
-                      <Image
-                        src={photo.src}
-                        alt={photo.alt}
-                        fill
-                        sizes="(min-width: 1024px) 380px, (min-width: 768px) 45vw, 50vw"
-                        placeholder="blur"
-                        className="object-cover transition-transform duration-500 ease-out motion-safe:group-hover:scale-[1.04]"
-                      />
-                      <figcaption className="absolute bottom-2 left-2 rounded-sm bg-navy/75 px-2 py-[3px] font-mono text-[10px] uppercase tracking-wide text-white">
-                        {photoIndex === 0 ? "Antes" : "Depois"}
-                      </figcaption>
-                    </figure>
-                  ))}
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-gold/60"
-                  />
-                </div>
+          {caseStudies.map((caseStudy, index) => (
+            <li
+              key={caseStudy.id}
+              className="reveal-3d perspective-distant"
+              style={{ "--reveal-delay": index * 90 } as CSSProperties}
+            >
+              <TiltCard
+                as="article"
+                className="h-full overflow-hidden rounded-2xl bg-paler shadow-card transition-[transform,box-shadow] duration-300 hover:shadow-lifted"
+              >
+                <CasePhotoCompare caseStudy={caseStudy} />
                 <h3 className="mx-5 mb-1.5 mt-[18px] font-title text-[19px] font-semibold text-navy">
                   {caseStudy.title}
                 </h3>
@@ -73,12 +59,15 @@ export function WorksSection() {
                 <p className="mx-5 mb-[22px] mt-2.5 font-mono text-[11px] tracking-wide text-deep">
                   {caseStudy.code}
                 </p>
-              </article>
+              </TiltCard>
             </li>
           ))}
         </ul>
 
-        <p className="mt-8 max-w-[680px] text-xs leading-[1.7] text-[#6b7f90]">
+        {/* #6b7f90 (cor original) tinha contraste 4.14:1 sobre branco — abaixo
+            do mínimo AA de 4,5:1 para texto normal. #4d6478 (já usado nas
+            descrições dos casos, acima) passa e mantém a mesma paleta. */}
+        <p className="mt-8 max-w-[680px] text-xs leading-[1.7] text-[#4d6478]">
           {worksDisclaimer}
         </p>
       </div>
